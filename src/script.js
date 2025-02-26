@@ -1,7 +1,19 @@
 
 ///// Create user interface
 
+///
+const numButtons = ["1","2","3","4","5","6","7","8","9","0",".","Del"]
 
+/// LOOP for button numbers in Array
+for(let i=0; i<numButtons.length; i++){
+    const buttNum = document.createElement('button');
+    let name = "button" + numButtons[i];
+    buttNum.setAttribute('name',name);
+    buttNum.setAttribute('style',"width:31px;height:31px;background-color:grey;")
+    buttNum.textContent = numButtons[i];
+    const numberButtons = document.getElementById('numButtons');
+    numberButtons.appendChild(buttNum);
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///// Calculations 
