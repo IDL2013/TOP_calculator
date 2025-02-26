@@ -1,18 +1,38 @@
-
 ///// Create user interface
 
 ///
-const numButtons = ["1","2","3","4","5","6","7","8","9","0",".","Del"]
+const numButtons = ["1","2","3","4","5","6","7","8","9",".","0","Del"]
 
 /// LOOP for button numbers in Array
-for(let i=0; i<numButtons.length; i++){
+for(let i = 0; i < numButtons.length; i++){
     const buttNum = document.createElement('button');
     let name = "button" + numButtons[i];
-    buttNum.setAttribute('name',name);
-    buttNum.setAttribute('style',"width:31px;height:31px;background-color:grey;")
+    buttNum.setAttribute('name', name);
+    buttNum.setAttribute('style', "width:70px;height:70px;background-color:grey;border-radius:15px");
     buttNum.textContent = numButtons[i];
     const numberButtons = document.getElementById('numButtons');
-    numberButtons.appendChild(buttNum);
+    if (numberButtons) {
+        numberButtons.appendChild(buttNum);
+    } else {
+        console.error('Element with ID "numButtons" not found.');
+    }
+}
+
+// Create operator buttons
+const operateButton = ["+","-","*","/","="];
+
+for(let i = 0; i < operateButton.length; i++){
+    const buttOp = document.createElement('button');
+    let name = "button" + operateButton[i];
+    buttOp.setAttribute('name', name);
+    buttOp.textContent = operateButton[i];
+    buttOp.setAttribute('style', "width:70px;height:70px;background-color:grey;border-radius:15px;strength: 2px;");
+    const operatorButtons = document.getElementById('operatorButtons');
+    if (operatorButtons) {
+        operatorButtons.appendChild(buttOp);
+    } else {
+        console.error('Element with ID "operatorButtons" not found.');
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
