@@ -1,13 +1,13 @@
 ///// Create user interface
 
 ///
-const numButtons = ["1","2","3","4","5","6","7","8","9",".","0","Del"]
+const numButtons = ["1","2","3","4","5","6","7","8","9",".","0","Clear"]
 
-/// LOOP for button numbers in Array
+/// Create number buttons
 for(let i = 0; i < numButtons.length; i++){
     const buttNum = document.createElement('button');
-    let name = "button" + numButtons[i];
-    buttNum.setAttribute('name', name);
+    buttNum.setAttribute('id', "button" + numButtons[i]);
+    buttNum.setAttribute('class', "numButton");
     buttNum.setAttribute('style', "width:70px;height:70px;background-color:grey;border-radius:15px");
     buttNum.textContent = numButtons[i];
     const numberButtons = document.getElementById('numButtons');
@@ -42,9 +42,9 @@ let currentNum = 0;
 let prevNum;
 
 // Create variables for display
-let numberOne;
-let numberTwo;
-let operator;
+let numberOne = [];
+let numberTwo = [];
+let operator = [];
 
 // Define calculation functions
 const addCalc = function (numOne,numTwo){
@@ -81,9 +81,19 @@ const operate = function(numOne,operator,numTwo){
     return currentNum;
 }
 
-// Populate display with initial number
+// Receive number input and populate display with initial number
 
-// Populate display with operator
+/// Add event listener to number buttons
+const numButton = document.querySelectorAll('.numButton');
+
+numButton.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        numberOne.push(button.textContent)
+        document.getElementById('inputDisplay').innerHTML = numberOne.join('');
+    });
+});
+
+// Receive operator input and populate display 
 
 // Populate display with second number
 
