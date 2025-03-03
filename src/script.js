@@ -19,12 +19,13 @@ for(let i = 0; i < numButtons.length; i++){
 }
 
 // Create operator buttons
-const operateButton = ["+","-","*","/","="];
+const operateButton = ["+","-","x","/","="];
 
 for(let i = 0; i < operateButton.length; i++){
     const buttOp = document.createElement('button');
     let name = "button" + operateButton[i];
-    buttOp.setAttribute('name', name);
+    buttOp.setAttribute('class', "operatorButton");
+    buttOp.setAttribute('id', name);
     buttOp.textContent = operateButton[i];
     buttOp.setAttribute('style', "width:70px;height:70px;background-color:grey;border-radius:15px;strength: 2px;");
     const operatorButtons = document.getElementById('operatorButtons');
@@ -66,16 +67,16 @@ const divideCalc = function (numOne,numTwo){
 // Create operate function
 const operate = function(numOne,operator,numTwo){
     prevNum = currentNum; // sets earlier value as previous in memory;
-    if (operator == "plus"){
+    if (operator == "+"){
         currentNum = addCalc(numOne,numTwo);
     }
-    else if (operator == "minus"){
+    else if (operator == "-"){
         currentNum = minusCalc(numOne,numTwo);
     }
-    else if (operator == "multiply"){
+    else if (operator == "x"){
         currentNum = productCalc(numOne,numTwo);
     }
-    else if (operator == "divide"){
+    else if (operator == "/"){
         currentNum = divideCalc(numOne,numTwo);
     }
     return currentNum;
@@ -85,17 +86,55 @@ const operate = function(numOne,operator,numTwo){
 
 /// Add event listener to number buttons
 const numButton = document.querySelectorAll('.numButton');
-
 numButton.forEach((button) => {
     button.addEventListener('click', (e) => {
-        numberOne.push(button.textContent)
-        document.getElementById('inputDisplay').innerHTML = numberOne.join('');
+        if (button.id === 'buttonClear') {
+            numberOne = [];
+            numberTwo = [];
+            operator = [];
+            document.getElementById('inputDisplay').innerHTML = '';
+            document.getElementById('outputDisplay').innerHTML = '';
+        } else if (numberOne.length > 0 && operator.length === 0) {
+            numberOne.push(button.textContent);
+        } else if (operator.length > 0) {
+            numberTwo.push(button.textContent);
+        } else {
+            numberOne.push(button.textContent);
+        }
+        document.getElementById('inputDisplay').innerHTML = numberOne.join('') + " " + operator + " " + numberTwo.join('');
     });
 });
 
 // Receive operator input and populate display 
-
-// Populate display with second number
-
-// Listen for "equals" button click and run operate function
-
+const operatorButton = document.querySelectorAll('.operatorButton');
+operatorButton.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        if (button.textContent === "=") {
+            const numOne = parseFloat(numberOne.join(''));
+            const numTwo = parseFloat(numberTwo.join(''));
+            const output = operate(numOne, operator, numTwo);
+            document.getElementById('outputDisplay').innerHTML = output;
+            numberOne = [output.toString()];
+            numberTwo = [];
+            operator = [];
+        } else {
+            operator = button.textContent;
+            document.getElementById('inputDisplay').innerHTML = numberOne.join('') + " " + operator + " " + numberTwo.join('');
+        }
+    });
+});
+// Add event listener for keystrokes matching the text content of the buttons, and trigger equivalent events to the listeners above
+document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    if (numButtons.includes(key)) {
+        document.getElementById('button' + key).click();
+    } else if (operateButton.includes(key)) {
+        document.getElementById('button' + key).click();
+    } else if (key === 'Enter') {
+        document.getElementById('button=').click();
+    } else if (key === '*') {
+        document.getElementById('buttonx').click();
+    } else if (key === 'Delete') {
+        document.getElementById('buttonClear').click();
+    }
+});
